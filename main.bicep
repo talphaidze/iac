@@ -21,6 +21,9 @@ resource appServicePlan 'Microsoft.Web/serverFarms@2022-03-01' = {
 resource appServiceApp 'Microsoft.Web/sites@2022-03-01' = {
   name: 'talphaidze-app-bicep'
   location: 'westus3'
+  dependsOn: [
+    appServicePlan
+  ]
   properties: {
     serverFarmId: appServicePlan.id
     httpsOnly: true
