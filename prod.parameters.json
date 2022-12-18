@@ -3,13 +3,13 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "appServiceAppName": {
-            "value": "talphaidze-app-bicep"
+            "value": "talphaidze-app-prod-bicep"
             },
             "appServicePlanName": {
-                "value": "talphaidze-app-bicep"
+                "value": "talphaidze-app-prod-bicep"
                 },
             "storageAccountName": {
-                "value": "talphaidzestorage"
+                "value": "talphaidzeprodstorage"
                 }
             }
 }
