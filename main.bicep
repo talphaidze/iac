@@ -16,6 +16,14 @@ param storageAccountName string = 'talphaidzestorage'
   ])
 param environmentType string = 'nonprod'
 param location string = resourceGroup().location
+@secure()
+param dbhost string
+@secure()
+param dbuser string
+@secure()
+param dbpass string
+@secure()
+param dbname string
 
 var storageAccountSkuName = (environmentType == 'prod') ? 'Standard_GRS' : 'Standard_LRS'
 
@@ -38,6 +46,10 @@ module appService 'modules/appStuff.bicep' = {
       appServiceAppName: appServiceAppName
       appServicePlanName: appServicePlanName
       environmentType: environmentType
+      dbhost: dbhost
+      dbuser: dbuser
+      dbpass: dbpass
+      dbname: dbname
     }
   }
   output appServiceAppHostName string = appService.outputs.appServiceAppHostName

@@ -7,6 +7,11 @@ param appServicePlanName string
 ])
 param environmentType string
 
+param dbhost string
+param dbuser string
+param dbpass string
+param dbname string
+
 var appServicePlanSkuName = (environmentType == 'prod') ? 'F1' : 'F1'
 
 resource appServicePlan 'Microsoft.Web/serverFarms@2022-03-01' = {
@@ -23,6 +28,26 @@ resource appServiceApp 'Microsoft.Web/sites@2022-03-01' = {
   properties: {
     serverFarmId: appServicePlan.id
     httpsOnly: true
+    siteConfig: {
+      appSettings: [
+        {
+          name: 'DBUSER'
+          value: dbuser
+        }
+        {
+          name: 'DBPASS'
+          value: dbpass
+        }
+        {
+          name: 'DBNAME'
+          value: dbname
+        }
+        {
+          name: 'DBHOST'
+          value: dbhost
+        }
+      ]
+    }
   }
 }
 
