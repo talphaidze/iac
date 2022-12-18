@@ -4,12 +4,12 @@
     "parameters": {
         "appServiceAppName": {
             "value": "talphaidze-app-dev-bicep"
-            },
-            "appServicePlanName": {
-                "value": "talphaidze-app-dev-bicep"
-                },
-            "storageAccountName": {
-                "value": "talphaidzedevstorage"
-                }
-            }
+        },
+        "appServicePlanName": {
+            "value": "talphaidze-app-dev-bicep"
+        },
+        "storageAccountName": {
+            "value": "talphaidzedevstorage"
+        }
+    }
 }
