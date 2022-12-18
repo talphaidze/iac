@@ -10,13 +10,20 @@ param appServicePlanName string = 'talphaidze-app-bicep-plan'
 @minLength(3)
 @maxLength(24)
 param storageAccountName string = 'talphaidzestorage'
+@allowed([
+  'nonprod'
+  'prod'
+  ])
+param environmentType string = 'nonprod'
+param location string = resourceGroup().location
 
+var storageAccountSkuName = (environmentType == 'prod') ? 'Standard_GRS' : 'Standard_LRS'
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2022-05-01' = {
   name: storageAccountName
-  location: 'westus3'
+  location: location
   sku: {
-    name: 'Standard_LRS'
+    name: storageAccountSkuName
   }
   kind: 'StorageV2'
   properties: {
@@ -24,19 +31,13 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2022-05-01' = {
   }
 }
 
-resource appServicePlan 'Microsoft.Web/serverFarms@2022-03-01' = {
-  name: appServicePlanName
-  location: 'westus3'
-  sku: {
-    name: 'F1'
+module appService 'modules/appStuff.bicep' = {
+  name: 'appService'
+    params: {
+      location: location
+      appServiceAppName: appServiceAppName
+      appServicePlanName: appServicePlanName
+      environmentType: environmentType
+    }
   }
-}
-
-resource appServiceApp 'Microsoft.Web/sites@2022-03-01' = {
-  name: appServiceAppName
-  location: 'westus3'
-  properties: {
-    serverFarmId: appServicePlan.id
-    httpsOnly: true
-  }
-}
+  output appServiceAppHostName string = appService.outputs.appServiceAppHostName
